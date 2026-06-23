@@ -204,16 +204,26 @@ export default function App() {
           <h2 class="mb-8 text-2xl font-bold tracking-tight">About</h2>
           <div class="max-w-2xl space-y-4 leading-relaxed text-muted">
             <p>
-              I wrote my first hello world in 1994. Thirty years later, I'm
-              still mostly just trying to figure out how to make complex systems
+              <code class="font-mono bg-accent/10 text-accent px-1.5 py-0.5 rounded">
+                hello world
+              </code>{" "}
+              on a first-gen Intel Pentium in 1994. Thirty years later, I'm
+              still mostly trying to figure out how to make complex systems
               simple and exploring how to get people locked in.
             </p>
             <p>
-              I want to be the village leader. I don't micromanage. I match
-              folks with problems that actually light them up, and trust that
-              transparency beats corporate slop every time. That comes from
-              growing in the trenches with my peers. Being genuinely yourself
-              and communicating clearly are the only ways to keep things from
+              I'm a{" "}
+              <strong class="text-foreground font-semibold">
+                village leader
+              </strong>.{" "}
+              I don't micromanage. We must match folks with problems that
+              actually light them up. We know that trust and transparency beats
+              {" "}
+              <span class="line-through decoration-muted/50">
+                corporate slop
+              </span>{" "}
+              every time. I work in the trenches with my peers. Being genuinely
+              myself and communicating authentically are my secret to never
               burning out.
             </p>
             <p>
@@ -221,11 +231,17 @@ export default function App() {
               embedded systems, geospatial mapping, machine learning, defense
               tech, web-scale cloud infra, networking security, big data and
               massive real-time data pipelines; even a brief stint helping serve
-              internet's "dankest" AI ads. I stay grounded in one rule: build
-              things that actually work for real people. Coffee's on me.
+              internet's "dankest" AI ads. There is only one rule:{" "}
+              <span class="text-accent font-medium">
+                build real things that work for real people
+              </span>
+              . Coffee's on me.
             </p>
             <p>
-              - a self-proclaimed wizard of the pragmatic arts
+              - a self-proclaimed{" "}
+              <em class="italic text-foreground">
+                wizard of the pragmatic arts
+              </em>
             </p>
           </div>
         </section>
