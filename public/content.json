@@ -1,0 +1,49 @@
+{
+  "projects": [
+    {
+      "slug": "ecommerce",
+      "title": "E-Commerce Platform",
+      "description": "Full-stack e-commerce solution with real-time inventory management.",
+      "tags": [
+        "React",
+        "Node.js",
+        "PostgreSQL"
+      ],
+      "imageUrl": "/images/ecommerce.jpg",
+      "liveUrl": "https://example.com/shop",
+      "repoUrl": "https://github.com/example/ecommerce",
+      "date": "2024-12-01",
+      "bodyHtml": "<p>Built a scalable e-commerce platform handling 10k+ daily transactions. Features include real-time inventory sync, Stripe integration, and an admin dashboard with analytics.</p>"
+    },
+    {
+      "slug": "design-system",
+      "title": "Design System",
+      "description": "Comprehensive component library with accessibility-first approach.",
+      "tags": [
+        "TypeScript",
+        "Storybook",
+        "Aria"
+      ],
+      "imageUrl": "/images/design-system.jpg",
+      "liveUrl": "https://example.com/design-system",
+      "repoUrl": "https://github.com/example/design-system",
+      "date": "2024-09-15",
+      "bodyHtml": "<p>Created a design system powering 5+ products. Includes 60+ components, full keyboard navigation, screen reader support, and automated visual regression testing.</p>"
+    },
+    {
+      "slug": "dashboard",
+      "title": "Real-Time Dashboard",
+      "description": "Analytics dashboard with live data streaming and custom visualizations.",
+      "tags": [
+        "SolidJS",
+        "D3.js",
+        "WebSockets"
+      ],
+      "imageUrl": "/images/dashboard.jpg",
+      "liveUrl": "https://example.com/dashboard",
+      "repoUrl": "https://github.com/example/dashboard",
+      "date": "2024-06-20",
+      "bodyHtml": "<p>Real-time analytics dashboard processing 1M+ events/day. Features custom D3 visualizations, WebSocket streaming, and sub-second latency data updates.</p>"
+    }
+  ]
+}
