@@ -17,18 +17,20 @@
       "bodyHtml": "<p></p>"
     },
     {
-      "slug": "design-system",
-      "title": "Design System",
-      "description": "Comprehensive component library with accessibility-first approach.",
+      "slug": "lymph",
+      "title": "Lymph",
+      "description": "Offline bio-data analytics. Your private weight/period/poop dashboard.",
       "tags": [
-        "TypeScript",
-        "Storybook",
-        "Aria"
+        "Kotlin",
+        "KMP",
+        "Android",
+        "iOS",
+        "Web?"
       ],
       "imageUrl": "/images/design-system.jpg",
       "liveUrl": "https://example.com/design-system",
-      "repoUrl": "https://github.com/example/design-system",
-      "date": "2024-09-15",
+      "repoUrl": "https://github.com/mdsolarflare/lymph",
+      "date": "2026-06-01",
       "bodyHtml": "<p>Created a design system powering 5+ products. Includes 60+ components, full keyboard navigation, screen reader support, and automated visual regression testing.</p>"
     },
     {

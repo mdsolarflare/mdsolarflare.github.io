@@ -4,9 +4,11 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { RotatingText } from "@/components/RotatingText";
 import type { ContentData } from "@/types/content";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
+import { useTheme } from "@/hooks/useTheme";
 
 export default function App() {
   const [getTier] = usePerformanceTier();
+  const [theme, toggleTheme] = useTheme();
   const [content, setContent] = createSignal<ContentData | null>(null);
   const [error, setError] = createSignal<string | null>(null);
 
@@ -38,6 +40,47 @@ export default function App() {
           </a>
 
           <div class="flex items-center gap-6">
+            {/* Theme Toggle */}
+            <button
+              type="button"
+              onclick={toggleTheme}
+              class="rounded-full p-2 text-muted transition-colors hover:bg-muted/10 hover:text-foreground focus-visible:outline-none"
+              aria-label={`Switch to ${
+                theme() === "light" ? "dark" : "light"
+              } mode`}
+            >
+              {/* Sun icon — visible in dark mode */}
+              <svg
+                class={theme() === "dark" ? "block h-5 w-5" : "hidden"}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width={1.5}
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z"
+                />
+              </svg>
+              {/* Moon icon — visible in light mode */}
+              <svg
+                class={theme() === "light" ? "block h-5 w-5" : "hidden"}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width={1.5}
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
+                />
+              </svg>
+            </button>
+
+            <div class="h-5 w-px bg-border" />
+
             <a
               href="#projects"
               class="text-sm font-medium text-muted transition-colors hover:text-foreground"
