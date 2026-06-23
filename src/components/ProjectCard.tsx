@@ -24,36 +24,27 @@ export const ProjectCard: Component<Props> = (props) => {
       return;
     }
 
-    // Stagger delay based on index and tier
     const delay = props.tier === "high" ? props.index * 80 : props.index * 40;
     setTimeout(() => setVisible(true), delay);
   });
 
   return (
     <article
-      class="card-shadow rounded-lg bg-surface border overflow-hidden transition-all duration-300 ease-out"
+      class="rounded-lg border border-border bg-surface overflow-hidden shadow-sm transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-md"
       style={{
-        "background-color": "var(--color-surface)",
-        "border-color": "var(--color-border)",
         opacity: visible() ? 1 : 0,
         transform: props.tier === "high" && !visible()
           ? "translateY(16px)"
-          : "translateY(0)",
+          : undefined,
       }}
     >
       {/* Image placeholder */}
       {props.project.imageUrl && (
-        <div
-          class="aspect-video w-full"
-          style={{
-            background:
-              "linear-gradient(135deg, var(--color-accent)/10, var(--color-surface))",
-          }}
-        >
+        <div class="aspect-video w-full bg-gradient-to-br from-accent/10 to-surface">
           <div class="flex h-full items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-12 w-12 opacity-40"
+              class="h-12 w-12 text-muted/40"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -73,8 +64,7 @@ export const ProjectCard: Component<Props> = (props) => {
         {/* Date */}
         <time
           dateTime={props.project.date}
-          class="text-xs font-medium"
-          style={{ color: "var(--color-muted)" }}
+          class="text-xs font-medium text-muted"
         >
           {new Date(props.project.date).toLocaleDateString("en-US", {
             year: "numeric",
@@ -88,24 +78,14 @@ export const ProjectCard: Component<Props> = (props) => {
         </h3>
 
         {/* Description */}
-        <p
-          class="mt-2 text-sm leading-relaxed"
-          style={{ color: "var(--color-muted)" }}
-        >
+        <p class="mt-2 text-sm leading-relaxed text-muted">
           {props.project.description}
         </p>
 
         {/* Tags */}
         <div class="mt-4 flex flex-wrap gap-2">
           {props.project.tags.map((tag) => (
-            <span
-              class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium"
-              style={{
-                background: "var(--color-accent)",
-                color: "#ffffff",
-                opacity: 0.12,
-              }}
-            >
+            <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium bg-accent/10 text-accent">
               {tag}
             </span>
           ))}
@@ -118,10 +98,9 @@ export const ProjectCard: Component<Props> = (props) => {
               href={props.project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="text-sm font-medium underline-offset-4 hover:underline"
-              style={{ color: "var(--color-accent)" }}
+              class="text-sm font-medium text-accent underline-offset-4 hover:underline"
             >
-              Live Demo →
+              Live Demo &rarr;
             </a>
           )}
           {props.project.repoUrl && (
@@ -129,10 +108,9 @@ export const ProjectCard: Component<Props> = (props) => {
               href={props.project.repoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="text-sm font-medium underline-offset-4 hover:underline"
-              style={{ color: "var(--color-muted)" }}
+              class="text-sm font-medium text-muted underline-offset-4 hover:underline"
             >
-              Source →
+              Source &rarr;
             </a>
           )}
         </div>

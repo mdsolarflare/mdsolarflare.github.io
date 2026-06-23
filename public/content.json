@@ -1,19 +1,20 @@
 {
   "projects": [
     {
-      "slug": "ecommerce",
-      "title": "E-Commerce Platform",
-      "description": "Full-stack e-commerce solution with real-time inventory management.",
+      "slug": "taskman",
+      "title": "Taskman",
+      "description": "Deno typescript react rust wasm hybrid. A Cronenberg of modern web dev. Exploring minimal dependencies thru inline styles.",
       "tags": [
         "React",
-        "Node.js",
-        "PostgreSQL"
+        "Deno",
+        "TypeScript",
+        "Rust"
       ],
       "imageUrl": "/images/ecommerce.jpg",
-      "liveUrl": "https://example.com/shop",
-      "repoUrl": "https://github.com/example/ecommerce",
-      "date": "2024-12-01",
-      "bodyHtml": "<p>Built a scalable e-commerce platform handling 10k+ daily transactions. Features include real-time inventory sync, Stripe integration, and an admin dashboard with analytics.</p>"
+      "liveUrl": "https://mdsolarflare.github.io/taskman/",
+      "repoUrl": "https://github.com/mdsolarflare/taskman",
+      "date": "2026-05-01",
+      "bodyHtml": "<p></p>"
     },
     {
       "slug": "design-system",

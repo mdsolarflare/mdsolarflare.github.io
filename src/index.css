@@ -1,38 +1,7 @@
 @import "tailwindcss";
 
-/* ── Design Tokens ─────────────────────────────────────── */
-:root {
-    /* Typography */
-    --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-
-    /* Spacing (8px scale) */
-    --space-1: 0.25rem; /* 4px */
-    --space-2: 0.5rem; /* 8px */
-    --space-3: 0.75rem; /* 12px */
-    --space-4: 1rem; /* 16px */
-    --space-6: 1.5rem; /* 24px */
-    --space-8: 2rem; /* 32px */
-    --space-12: 3rem; /* 48px */
-    --space-16: 4rem; /* 64px */
-
-    /* Border radius */
-    --radius-sm: 0.5rem; /* 8px */
-    --radius-md: 0.75rem; /* 12px */
-    --radius-lg: 1rem; /* 16px */
-
-    /* Shadows */
-    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
-    --shadow-card-hover:
-        0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
-
-    /* Transitions */
-    --transition-fast: 150ms ease;
-    --transition-base: 250ms ease;
-}
-
-/* ── Light Theme (default) ─────────────────────────────── */
-:root {
-    color-scheme: light dark;
+/* ── Register semantic colors with Tailwind via @theme ─── */
+@theme {
     --color-background: #fafafa;
     --color-surface: #ffffff;
     --color-foreground: #1a1a2e;
@@ -42,9 +11,9 @@
     --color-accent-hover: #4338ca;
 }
 
-/* ── Dark Theme ─────────────────────────────────────────── */
+/* ── Dark Theme (auto via prefers-color-scheme) ───────── */
 @media (prefers-color-scheme: dark) {
-    :root {
+    @theme {
         --color-background: #0f0f17;
         --color-surface: #1a1a2e;
         --color-foreground: #e5e7eb;
@@ -55,41 +24,35 @@
     }
 }
 
-/* ── Global Reset & Base ───────────────────────────────── */
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
-
+/* ── Base ─────────────────────────────────────────────── */
 html {
-    font-family: var(--font-sans);
+    font-family:
+        "Inter",
+        system-ui,
+        -apple-system,
+        sans-serif;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    -moz-osx-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
 }
 
 body {
     margin: 0;
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-    line-height: 1.6;
     min-height: 100vh;
 }
 
-/* ── Focus States (accessible, visible) ─────────────────── */
+/* ── Focus States ─────────────────────────────────────── */
 :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
-    border-radius: var(--radius-sm);
+    border-radius: 0.5rem;
 }
 
-/* Remove focus ring for mouse users */
 :focus:not(:focus-visible) {
     outline: none;
 }
 
-/* ── Reduced Motion ─────────────────────────────────────── */
+/* ── Reduced Motion ───────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -102,25 +65,4 @@ body {
     html {
         scroll-behavior: auto;
     }
-}
-
-/* ── Utility Classes ───────────────────────────────────── */
-
-/* Responsive grid that auto-fits cards evenly (1-3 per row based on width) */
-.project-grid {
-    display: grid;
-    gap: 1.5rem; /* 24px = gap-6 */
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-}
-
-.card-shadow {
-    box-shadow: var(--shadow-card);
-    transition:
-        box-shadow var(--transition-base),
-        transform var(--transition-base);
-}
-
-.card-shadow:hover {
-    box-shadow: var(--shadow-card-hover);
-    transform: translateY(-2px);
 }
