@@ -7,7 +7,7 @@
     --color-foreground: #1a1a2e;
     --color-muted: #6b7280;
     --color-border: #e5e7eb;
-    --color-accent: #4f46e5;
+    --color-accent: #d97706;
 }
 
 /* ── Dark Theme (via [data-theme="dark"] attribute) ───── */
@@ -17,7 +17,7 @@
     --color-foreground: #e5e7eb;
     --color-muted: #9ca3af;
     --color-border: #2d2d44;
-    --color-accent: #818cf8;
+    --color-accent: #fb923c;
 }
 
 /* ── Map Tailwind utilities to CSS custom properties ──── */
