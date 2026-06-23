@@ -1,0 +1,50 @@
+{
+  "projects": [
+    {
+      "slug": "taskman",
+      "title": "Taskman",
+      "description": "Deno typescript react rust wasm hybrid. A Cronenberg of modern web dev. Exploring minimal dependencies thru inline styles.",
+      "tags": [
+        "React",
+        "Deno",
+        "TypeScript",
+        "Rust",
+        "Web Assembly"
+      ],
+      "imageUrl": "/images/Taskman-sample.png",
+      "liveUrl": "https://mdsolarflare.github.io/taskman/",
+      "repoUrl": "https://github.com/mdsolarflare/taskman",
+      "date": "2026-05-01"
+    },
+    {
+      "slug": "lymph",
+      "title": "Lymph",
+      "description": "Offline bio-data analytics. Your private weight/period/poop dashboard.",
+      "tags": [
+        "Kotlin",
+        "KMP",
+        "Android",
+        "iOS",
+        "Web?"
+      ],
+      "imageUrl": "/images/design-system.jpg",
+      "liveUrl": "https://example.com/design-system",
+      "repoUrl": "https://github.com/mdsolarflare/lymph",
+      "date": "2026-06-01"
+    },
+    {
+      "slug": "dashboard",
+      "title": "Real-Time Dashboard",
+      "description": "Analytics dashboard with live data streaming and custom visualizations.",
+      "tags": [
+        "SolidJS",
+        "D3.js",
+        "WebSockets"
+      ],
+      "imageUrl": "/images/dashboard.jpg",
+      "liveUrl": "https://example.com/dashboard",
+      "repoUrl": "https://github.com/example/dashboard",
+      "date": "2024-06-20"
+    }
+  ]
+}
