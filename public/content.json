@@ -8,13 +8,13 @@
         "React",
         "Deno",
         "TypeScript",
-        "Rust"
+        "Rust",
+        "Web Assembly"
       ],
-      "imageUrl": "/images/ecommerce.jpg",
+      "imageUrl": "/images/Taskman-sample.png",
       "liveUrl": "https://mdsolarflare.github.io/taskman/",
       "repoUrl": "https://github.com/mdsolarflare/taskman",
-      "date": "2026-05-01",
-      "bodyHtml": "<p></p>"
+      "date": "2026-05-01"
     },
     {
       "slug": "lymph",
@@ -30,8 +30,7 @@
       "imageUrl": "/images/design-system.jpg",
       "liveUrl": "https://example.com/design-system",
       "repoUrl": "https://github.com/mdsolarflare/lymph",
-      "date": "2026-06-01",
-      "bodyHtml": "<p>Created a design system powering 5+ products. Includes 60+ components, full keyboard navigation, screen reader support, and automated visual regression testing.</p>"
+      "date": "2026-06-01"
     },
     {
       "slug": "dashboard",
@@ -45,8 +44,7 @@
       "imageUrl": "/images/dashboard.jpg",
       "liveUrl": "https://example.com/dashboard",
       "repoUrl": "https://github.com/example/dashboard",
-      "date": "2024-06-20",
-      "bodyHtml": "<p>Real-time analytics dashboard processing 1M+ events/day. Features custom D3 visualizations, WebSocket streaming, and sub-second latency data updates.</p>"
+      "date": "2024-06-20"
     }
   ]
 }

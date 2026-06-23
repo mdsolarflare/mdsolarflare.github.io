@@ -14,7 +14,9 @@ export default function App() {
 
   onMount(async () => {
     try {
-      const res = await fetch("/content.json", { cache: "force-cache" });
+      // Version-stamped URL busts cache per deploy but stays stable within one
+      const url = `/content.json?v=${__CONTENT_VERSION}`;
+      const res = await fetch(url);
       if (!res.ok) throw new Error(`Failed to load content: ${res.status}`);
       setContent(await res.json());
     } catch (e) {
@@ -118,9 +120,9 @@ export default function App() {
             </span>
           </h1>
           <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-            Software engineer focused on performant design, interfaces, and
-            scaling teams to villages. Currently crafting immaculately vibe
-            coded tools and games for various sponsors.
+            Wizard focused on performant design, interfaces, and scaling teams
+            to villages. Currently crafting immaculately vibe coded tools and
+            games for various sponsors.
           </p>
 
           {/* Social Links */}
@@ -220,8 +222,10 @@ export default function App() {
               tech, web-scale cloud infra, networking security, big data and
               massive real-time data pipelines; even a brief stint helping serve
               internet's "dankest" AI ads. I stay grounded in one rule: build
-              things that actually work for real people. Coffee's on me. - a
-              self-proclaimed wizard of the pragmatic arts
+              things that actually work for real people. Coffee's on me.
+            </p>
+            <p>
+              - a self-proclaimed wizard of the pragmatic arts
             </p>
           </div>
         </section>

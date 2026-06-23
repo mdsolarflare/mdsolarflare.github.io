@@ -2,7 +2,6 @@ export interface Project {
   slug: string;
   title: string;
   description: string;
-  bodyHtml: string;
   tags: string[];
   imageUrl?: string;
   liveUrl?: string;
