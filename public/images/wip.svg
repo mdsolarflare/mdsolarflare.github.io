@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e5e7eb" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+
+  <!-- Subtle grid background -->
+  <rect width="640" height="360" rx="8" fill="url(#grid)"/>
+
+  <!-- WIP badge -->
+  <g transform="translate(270, 130)">
+    <circle cx="50" cy="50" r="44" stroke="#d1d5db" stroke-width="2.5" stroke-dasharray="8 6"/>
+    <text x="50" y="44" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="600" fill="#9ca3af" text-anchor="middle" letter-spacing="2">WIP</text>
+  </g>
+
+  <!-- Label -->
+  <text x="320" y="245" font-family="system-ui,-apple-system,sans-serif" font-size="14" fill="#b0b5be" text-anchor="middle">Work in Progress</text>
+</svg>

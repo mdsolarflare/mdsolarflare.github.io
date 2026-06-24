@@ -1,7 +1,6 @@
 {
   "projects": [
     {
-      "slug": "taskman",
       "title": "Taskman",
       "description": "Deno typescript react rust wasm hybrid. A Cronenberg of modern web dev. Exploring minimal dependencies thru inline styles.",
       "tags": [
@@ -17,7 +16,6 @@
       "date": "2026-05-01"
     },
     {
-      "slug": "lymph",
       "title": "Lymph",
       "description": "Offline bio-data analytics. Your private weight/period/poop dashboard.",
       "tags": [
@@ -27,24 +25,33 @@
         "iOS",
         "Web?"
       ],
-      "imageUrl": "/images/design-system.jpg",
-      "liveUrl": "https://example.com/design-system",
+      "imageUrl": "/images/wip.svg",
+      "liveUrl": "https://www.imdb.com/title/tt10417836/",
       "repoUrl": "https://github.com/mdsolarflare/lymph",
       "date": "2026-06-01"
     },
     {
-      "slug": "dashboard",
-      "title": "Real-Time Dashboard",
-      "description": "Analytics dashboard with live data streaming and custom visualizations.",
+      "title": "Vector Chess",
+      "description": "It's Polygon Pandemonium. We're talking 3?D? chess.",
       "tags": [
-        "SolidJS",
-        "D3.js",
-        "WebSockets"
+        "Godot"
       ],
-      "imageUrl": "/images/dashboard.jpg",
-      "liveUrl": "https://example.com/dashboard",
-      "repoUrl": "https://github.com/example/dashboard",
-      "date": "2024-06-20"
+      "imageUrl": "/images/wip.svg",
+      "liveUrl": "https://en.wikipedia.org/wiki/Hexagonal_chess",
+      "repoUrl": "https://github.com/mdsolarflare/vector-chess",
+      "date": "2026-07-01"
+    },
+    {
+      "title": "PocketPage",
+      "description": "The 1990s is back...not really.",
+      "tags": [
+        "WebGPU",
+        "Deno? Bun?"
+      ],
+      "imageUrl": "/images/wip.svg",
+      "liveUrl": "https://www.imdb.com/title/tt10417836/",
+      "repoUrl": "https://github.com/mdsolarflare/PocketPage",
+      "date": "2026-07-01"
     }
   ]
 }
