@@ -45,9 +45,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build content (markdown → JSON)
-        run: pnpm build:content
-
       - name: Production build
         run: pnpm build
 
