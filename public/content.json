@@ -1,55 +1,54 @@
 {
-  "projects": [
+  "apps": [
     {
-      "title": "Taskman",
-      "description": "Deno typescript react rust wasm hybrid. A Cronenberg of modern web dev. Exploring minimal dependencies thru inline styles.",
-      "tags": [
-        "React",
-        "Deno",
-        "TypeScript",
-        "Rust",
-        "Web Assembly"
-      ],
-      "imageUrl": "/images/Taskman-sample.png",
-      "liveUrl": "https://heyy.foo/taskman/",
+      "id": "taskman",
+      "name": "Taskman",
+      "tagline": "Task manager built as a Deno/React/Rust-WASM hybrid — minimal dependencies, inline styles, no mercy.",
+      "category": "tools",
+      "status": "live",
+      "size": "featured",
+      "icon": "/icons/taskman.svg",
+      "accent": "#38bdf8",
+      "tags": ["React", "Deno", "TypeScript", "Rust", "WebAssembly"],
+      "launchUrl": "https://heyy.foo/taskman/",
       "repoUrl": "https://github.com/mdsolarflare/taskman",
       "date": "2026-05-01"
     },
     {
-      "title": "Lymph",
-      "description": "Offline bio-data analytics. Your private weight/period/poop dashboard.",
-      "tags": [
-        "Kotlin",
-        "KMP",
-        "Android",
-        "iOS",
-        "Web?"
-      ],
-      "imageUrl": "/images/wip.svg",
-      "liveUrl": "https://www.imdb.com/title/tt10417836/",
-      "repoUrl": "https://github.com/mdsolarflare/lymph",
-      "date": "2026-06-01"
-    },
-    {
-      "title": "Vector Chess",
-      "description": "It's Polygon Pandemonium. We're talking 3?D? chess.",
-      "tags": [
-        "Godot"
-      ],
-      "imageUrl": "/images/wip.svg",
-      "liveUrl": "https://en.wikipedia.org/wiki/Hexagonal_chess",
+      "id": "vector-chess",
+      "name": "Vector Chess",
+      "tagline": "Polygon pandemonium. 3?D? chess on a hex grid.",
+      "category": "games",
+      "status": "wip",
+      "size": "featured",
+      "icon": "/icons/vector-chess.svg",
+      "accent": "#a78bfa",
+      "tags": ["Godot"],
       "repoUrl": "https://github.com/mdsolarflare/vector-chess",
       "date": "2026-07-01"
     },
     {
-      "title": "PocketPage",
-      "description": "The 1990s is back...not really.",
-      "tags": [
-        "WebGPU",
-        "Deno? Bun?"
-      ],
-      "imageUrl": "/images/wip.svg",
-      "liveUrl": "https://www.imdb.com/title/tt10417836/",
+      "id": "lymph",
+      "name": "Lymph",
+      "tagline": "Offline bio-data analytics. Your private weight/period/poop dashboard.",
+      "category": "tools",
+      "status": "wip",
+      "icon": "/icons/lymph.svg",
+      "accent": "#f472b6",
+      "tags": ["Kotlin", "KMP", "Android", "iOS"],
+      "repoUrl": "https://github.com/mdsolarflare/lymph",
+      "date": "2026-06-01"
+    },
+    {
+      "id": "pocketpage",
+      "name": "PocketPage",
+      "tagline": "A pocket browser for a 1990s that never happened.",
+      "category": "experiments",
+      "status": "wip",
+      "size": "small",
+      "icon": "/icons/pocketpage.svg",
+      "accent": "#34d399",
+      "tags": ["WebGPU"],
       "repoUrl": "https://github.com/mdsolarflare/PocketPage",
       "date": "2026-07-01"
     }
