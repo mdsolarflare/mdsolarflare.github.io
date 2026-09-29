@@ -8,16 +8,22 @@
     --color-muted: #6b7280;
     --color-border: #e5e7eb;
     --color-accent: #d97706;
+    --color-live: #059669;
+    --color-wip: #d97706;
+    --color-retired: #9ca3af;
 }
 
 /* ── Dark Theme (via [data-theme="dark"] attribute) ───── */
 [data-theme="dark"] {
-    --color-background: #0f0f17;
-    --color-surface: #1a1a2e;
-    --color-foreground: #e5e7eb;
-    --color-muted: #9ca3af;
-    --color-border: #2d2d44;
+    --color-background: #0a100c;
+    --color-surface: #131d16;
+    --color-foreground: #e8ede8;
+    --color-muted: #90a294;
+    --color-border: #27392e;
     --color-accent: #fb923c;
+    --color-live: #34d399;
+    --color-wip: #fbbf24;
+    --color-retired: #64756b;
 }
 
 /* ── Map Tailwind utilities to CSS custom properties ──── */
@@ -28,6 +34,9 @@
     --color-muted: var(--color-muted);
     --color-border: var(--color-border);
     --color-accent: var(--color-accent);
+    --color-live: var(--color-live);
+    --color-wip: var(--color-wip);
+    --color-retired: var(--color-retired);
 }
 
 /* ── Base ─────────────────────────────────────────────── */
