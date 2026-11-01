@@ -2,19 +2,18 @@
 
 Pure client-side portfolio built with **SolidJS**, **Vite**, and **Tailwind CSS v4**. Zero SSR, zero hydration, zero islands. Designed for static CDN hosting (Cloudflare Pages / GitHub Pages / S3+CloudFront).
 
+Live at [mdsolarflare.github.io](https://mdsolarflare.github.io) — deployed automatically by GitHub Actions on every push to `main`.
+
 ## Requirements
 
-- **Node.js** ≥ 20 (tested on 26.x)
-- **pnpm** ≥ 9 (`npm i -g pnpm`)
+- **Node.js** ≥ 20 (CI runs 24)
+- **pnpm** ≥ 9 (CI runs 11; `npm i -g pnpm`)
 
 ## Quick Start
 
 ```bash
 # Install dependencies
 pnpm install
-
-# Build content from markdown → JSON
-pnpm build:content
 
 # Dev server (port 3000)
 pnpm dev
@@ -29,13 +28,9 @@ pnpm preview
 ## Architecture
 
 ### Content Pipeline
-Markdown files in `content/projects/*.md` are pre-compiled to structured JSON at build time:
+Site content lives in a single hand-edited JSON file, `public/content.json`, committed to the repo — no markdown sources, no build-time transform. Edit the JSON and push.
 
-```bash
-pnpm build:content   # → public/content.json
-```
-
-The client fetches this JSON with `cache: "force-cache"` on mount. **Zero markdown parsing in the browser.**
+The client fetches it on mount with a version-stamped URL (`/content.json?v=...`). The stamp is generated at build time in `vite.config.ts`, so every deploy busts CDN/browser caches while staying stable within one deployment. **Zero markdown parsing in the browser.**
 
 ### Hardware-Aware Rendering
 `src/hooks/usePerformanceTier.ts` detects device capability using only standard APIs:
@@ -49,7 +44,7 @@ The client fetches this JSON with `cache: "force-cache"` on mount. **Zero markdo
 ### Design System
 - **Font**: Inter (single variable font via Google Fonts)
 - **Spacing**: 8px scale (`--space-*` tokens)
-- **Theming**: CSS custom properties + `prefers-color-scheme` native dark mode
+- **Theming**: CSS custom properties, manual light/dark toggle (`useTheme`) persisted to `localStorage` with `prefers-color-scheme` fallback; inline script in `index.html` prevents flash of wrong theme
 - **Accessibility**: Visible `:focus-visible` states, semantic HTML, ARIA labels
 
 ### Bundle Targets
@@ -61,57 +56,52 @@ The client fetches this JSON with `cache: "force-cache"` on mount. **Zero markdo
 ## Project Structure
 
 ```
-├── content/projects/     # Markdown source files (*.md)
-├── public/               # Static assets + generated content.json
-├── scripts/
-│   └── build-content.ts  # MD → JSON transformer (Node runtime)
+├── .github/
+│   └── workflows/
+│       └── static.yml        # GitHub Pages deploy on push to main
+├── public/
+│   ├── content.json          # Site content (hand-edited, committed)
+│   ├── favicon.svg
+│   └── images/               # Project screenshots
 ├── src/
 │   ├── components/       # UI components
 │   │   └── ProjectCard.tsx
+│   │   └── RotatingText.tsx
 │   ├── hooks/
 │   │   └── usePerformanceTier.ts
+│   │   └── useTheme.ts
 │   ├── types/
 │   │   └── content.ts
 │   ├── App.tsx           # Main layout + content fetching
 │   ├── index.css         # Tailwind v4 + design tokens
 │   └── index.tsx         # Entry point (render → #app)
-├── index.html            # Shell (no hydration, pure CSR)
-├── vite.config.ts        # Vite + Tailwind + path aliases
+├── index.html            # Shell (no hydration, pure CSR) + theme bootstrap script
+├── vite.config.ts        # Vite + Solid + Tailwind + content version stamp
 └── tsconfig.json         # Strict TS + @/ alias
 ```
 
 ## Deployment
 
+### GitHub Pages (current setup)
+`.github/workflows/static.yml` deploys to GitHub Pages automatically on every push to `main` (also runnable manually from the Actions tab):
+
+1. `pnpm install --frozen-lockfile` (Node 24, pnpm 11)
+2. `pnpm build`
+3. Uploads `dist/` and deploys via `actions/deploy-pages`
+
+One-time repo setup: **Settings → Pages → Source: GitHub Actions**. This is a user site (`mdsolarflare.github.io`) served at the root, so no Vite `base` config is needed.
+
 ### Cloudflare Pages
 ```bash
-pnpm build:content && pnpm build
+pnpm build
 # Upload dist/ folder or connect Git repo with:
-#   Build command: pnpm build:content && pnpm build
+#   Build command: pnpm build
 #   Output dir: dist
-```
-
-### GitHub Pages
-Add to `package.json`:
-```json
-{
-  "scripts": {
-    "predeploy": "pnpm build:content && pnpm build",
-    "deploy": "gh-pages -d dist"
-  }
-}
-```
-
-Set `base` in `vite.config.ts` to your repo name:
-```ts
-export default defineConfig({
-  base: "/repo-name/",
-  // ...
-});
 ```
 
 ### S3 + CloudFront
 ```bash
-pnpm build:content && pnpm build
+pnpm build
 aws s3 sync dist/ s3://your-bucket --delete
 # Invalidate CloudFront distribution
 ```
@@ -121,7 +111,6 @@ aws s3 sync dist/ s3://your-bucket --delete
 | Command | Description |
 |---|---|
 | `pnpm dev` | Start dev server with HMR |
-| `pnpm build:content` | Convert markdown → JSON |
 | `pnpm build` | TypeScript check + Vite production build |
 | `pnpm preview` | Serve production build locally |
 
