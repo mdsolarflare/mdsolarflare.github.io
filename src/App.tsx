@@ -85,12 +85,20 @@ export default function App() {
           <nav class="flex items-center justify-between" aria-label="Main">
             <a
               href="/"
-              class="text-lg font-bold tracking-tight"
+              class="flex items-center gap-2.5 text-lg font-bold tracking-tight"
               aria-label="Home"
             >
-              heyy development
-              <span class="text-accent"> . </span>
-              carnietech industries
+              <img
+                src="/icons/clown-favicon.svg"
+                alt=""
+                class="h-8 w-8"
+                decoding="async"
+              />
+              <span>
+                heyy development
+                <span class="text-accent"> . </span>
+                carnietech industries
+              </span>
             </a>
 
             <div class="flex items-center gap-1.5 sm:gap-3">
