@@ -3,13 +3,13 @@
     {
       "id": "taskman",
       "name": "Taskman",
-      "tagline": "Task manager built as a Deno/React/Rust-WASM hybrid — minimal dependencies, inline styles, no mercy.",
+      "tagline": "Task manager built as a React/Rust-WASM hybrid — minimal dependencies, styles, no mercy.",
       "category": "tools",
       "status": "live",
       "size": "featured",
       "icon": "/icons/taskman.svg",
       "accent": "#ffd43b",
-      "tags": ["React", "Deno", "TypeScript", "Rust", "WebAssembly"],
+      "tags": ["React", "pnpm", "TypeScript", "Rust", "WebAssembly"],
       "launchUrl": "https://heyy.foo/taskman/",
       "repoUrl": "https://github.com/mdsolarflare/taskman",
       "date": "2026-05-01"
@@ -35,7 +35,8 @@
       "status": "wip",
       "icon": "/icons/lymph.svg",
       "accent": "#f472b6",
-      "tags": ["Kotlin", "KMP", "Android", "iOS"],
+      "tags": ["React", "pnpm", "TypeScript", "Rust", "WebAssembly"],
+      "launchUrl": "https://heyy.foo/lymph/",
       "repoUrl": "https://github.com/mdsolarflare/lymph",
       "date": "2026-06-01"
     },
