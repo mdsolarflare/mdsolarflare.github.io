@@ -91,20 +91,7 @@ The client fetches it on mount with a version-stamped URL (`/content.json?v=...`
 
 One-time repo setup: **Settings → Pages → Source: GitHub Actions**. This is a user site (`mdsolarflare.github.io`) served at the root, so no Vite `base` config is needed.
 
-### Cloudflare Pages
-```bash
-pnpm build
-# Upload dist/ folder or connect Git repo with:
-#   Build command: pnpm build
-#   Output dir: dist
-```
 
-### S3 + CloudFront
-```bash
-pnpm build
-aws s3 sync dist/ s3://your-bucket --delete
-# Invalidate CloudFront distribution
-```
 
 ## Scripts
 
