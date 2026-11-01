@@ -84,20 +84,33 @@ const TileContent: Component<{ app: App }> = (props) => {
         </div>
       )}
 
-      {/* Footer: category + action hint */}
+      {/* Footer: category + action hint + source link */}
       <div class="mt-auto flex items-center justify-between pt-4">
         <span class="text-xs font-medium uppercase tracking-wide text-muted">
           {props.app.category}
         </span>
-        {isLaunchable() ? (
-          <span class="text-xs font-medium text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            {props.app.status === "live" ? "Open ↗" : "Source ↗"}
-          </span>
-        ) : (
-          <span class="text-xs text-muted">
-            {props.app.status === "wip" ? "In the works" : "Retired"}
-          </span>
-        )}
+        <div class="flex items-center gap-3">
+          {isLaunchable() && (
+            <span class="text-xs font-medium text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              {props.app.status === "live" ? "Open ↗" : "Source ↗"}
+            </span>
+          )}
+          {props.app.status === "live" && props.app.repoUrl && (
+            <a
+              href={props.app.repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="relative z-10 text-xs font-medium text-muted transition-colors hover:text-accent"
+            >
+              Source ↗
+            </a>
+          )}
+          {!isLaunchable() && (
+            <span class="text-xs text-muted">
+              {props.app.status === "wip" ? "In the works" : "Retired"}
+            </span>
+          )}
+        </div>
       </div>
     </>
   );
@@ -108,6 +121,7 @@ const TileContent: Component<{ app: App }> = (props) => {
  *
  - Live apps open their launch URL; WIP apps open their repo (if any);
    retired tiles are inert and dimmed.
+ - Live tiles with a repoUrl also render a "Source ↗" footer link.
  - `size` drives bento width: featured / standard / small.
  - Entrance animation is tier-aware: high → staggered fade + slide-up,
    medium → quick fade, low → static.
@@ -145,18 +159,22 @@ export const AppTile: Component<Props> = (props) => {
       props.tier === "high" && !visible() ? "translateY(16px)" : undefined,
   });
 
-  return target() ? (
-    <a
-      href={target()}
-      target="_blank"
-      rel="noopener noreferrer"
-      class={classes()}
-      style={style()}
-    >
-      <TileContent app={props.app} />
-    </a>
-  ) : (
+  return (
     <article class={classes()} style={style()}>
+      {/* Stretched-link overlay: whole tile acts as the launch target */}
+      {target() && (
+        <a
+          href={target()}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="absolute inset-0 rounded-xl"
+          aria-label={
+            props.app.status === "live"
+              ? `Open ${props.app.name}`
+              : `View ${props.app.name} source on GitHub`
+          }
+        />
+      )}
       <TileContent app={props.app} />
     </article>
   );
