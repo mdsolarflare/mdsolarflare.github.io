@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <!-- Definitions for Gradients -->
+  <defs>
+    <!-- Face Gradient -->
+    <radialGradient id="faceGrad" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="70%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#cbd5e1" />
+    </radialGradient>
+
+    <!-- Hair Gradient -->
+    <linearGradient id="hairGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff4500" />
+      <stop offset="100%" stop-color="#b32400" />
+    </linearGradient>
+
+    <!-- Nose & Paint Gradient -->
+    <radialGradient id="redGrad" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ff1a1a" />
+      <stop offset="100%" stop-color="#990000" />
+    </radialGradient>
+
+    <!-- Cigar Gradient -->
+    <linearGradient id="cigarGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4a2511" />
+      <stop offset="70%" stop-color="#7a421d" />
+      <stop offset="85%" stop-color="#f59e0b" />
+      <stop offset="95%" stop-color="#ef4444" />
+      <stop offset="100%" stop-color="#18181b" />
+    </linearGradient>
+
+    <!-- Drop Shadow -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <!-- Wild Clown Hair (Tufts) -->
+  <g fill="url(#hairGrad)" filter="url(#shadow)">
+    <!-- Left Hair -->
+    <path d="M 14 26 C 2 24 2 12 12 10 C 4 4 18 0 22 12 C 18 18 16 22 14 26 Z" />
+    <!-- Right Hair -->
+    <path d="M 50 26 C 62 24 62 12 52 10 C 60 4 46 0 42 12 C 46 18 48 22 50 26 Z" />
+  </g>
+
+  <!-- Main Head Base -->
+  <circle cx="32" cy="34" r="22" fill="url(#faceGrad)" filter="url(#shadow)" />
+
+  <!-- Tough Brow (Angry/Mean Eyes Accent) -->
+  <!-- Left Eyebrow -->
+  <path d="M 16 23 Q 24 27 30 25" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round" fill="none" />
+  <!-- Right Eyebrow -->
+  <path d="M 48 23 Q 40 27 34 25" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round" fill="none" />
+
+  <!-- Blue Eye Makeup Stars/Diamonds -->
+  <path d="M 23 18 L 26 27 L 23 33 L 20 27 Z" fill="#2563eb" />
+  <path d="M 41 18 L 44 27 L 41 33 L 38 27 Z" fill="#2563eb" />
+
+  <!-- Narrow/Grounded Tough Eyes -->
+  <circle cx="23" cy="27" r="2.5" fill="#0f172a" />
+  <circle cx="41" cy="27" r="2.5" fill="#0f172a" />
+  <!-- Eye Glint -->
+  <circle cx="22" cy="26" r="0.8" fill="#ffffff" />
+  <circle cx="40" cy="26" r="0.8" fill="#ffffff" />
+
+  <!-- Big Red Clown Nose -->
+  <circle cx="32" cy="33" r="6" fill="url(#redGrad)" filter="url(#shadow)" />
+  <circle cx="30" cy="31" r="1.5" fill="#ffffff" opacity="0.6" />
+
+  <!-- Clown Mouth / White Makeup Area -->
+  <path d="M 20 40 Q 32 38 44 40 Q 42 50 32 50 Q 22 50 20 40 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.5" />
+
+  <!-- Mean Smirk / Grimace Mouth Line -->
+  <path d="M 22 43 Q 32 41 42 44" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round" fill="none" />
+
+  <!-- Cigar (Tilted out of mouth) -->
+  <g filter="url(#shadow)">
+    <!-- Cigar Body -->
+    <rect x="28" y="43" width="26" height="5.5" rx="2.75" fill="url(#cigarGrad)" transform="rotate(12 28 43)" />
+    <!-- Cigar Band (Label) -->
+    <rect x="34" y="43.5" width="4" height="6" fill="#facc15" transform="rotate(12 28 43)" />
+    <!-- Smoke Swirls -->
+    <path d="M 54 44 Q 57 38 54 34 T 58 26" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.75" />
+    <path d="M 57 41 Q 62 37 59 31" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.5" />
+  </g>
+</svg>
