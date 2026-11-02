@@ -1,6 +1,13 @@
-import { createMemo, createSignal, For, onMount } from "solid-js";
+import {
+  createEffect,
+  createMemo,
+  createSignal,
+  For,
+  onMount,
+} from "solid-js";
 import "./index.css";
 import { AppTile } from "@/components/AppTile";
+import { ScrambleText } from "@/components/ScrambleText";
 import type { App, ContentData } from "@/types/content";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { useTheme } from "@/hooks/useTheme";
@@ -8,6 +15,12 @@ import { useTheme } from "@/hooks/useTheme";
 export default function App() {
   const [getTier] = usePerformanceTier();
   const [theme, toggleTheme] = useTheme();
+
+  // Expose the tier so CSS can gate decorative animations (mirrors
+  // prefers-reduced-motion for devices that are slow without the OS setting)
+  createEffect(() => {
+    document.documentElement.dataset.tier = getTier();
+  });
   const [content, setContent] = createSignal<ContentData | null>(null);
   const [error, setError] = createSignal<string | null>(null);
   const [query, setQuery] = createSignal("");
@@ -79,6 +92,12 @@ export default function App() {
 
   return (
     <div class="min-h-screen bg-background text-foreground">
+      {/* ── Neon Noir backdrop (dark theme only) ───────── */}
+      <div class="bg-grid" aria-hidden="true" />
+      <div class="ghost-mark" aria-hidden="true">
+        carnietech
+      </div>
+
       {/* ── Header ─────────────────────────────────────── */}
       <header class="sticky top-0 z-10 border-b border-border/60 bg-background/85 backdrop-blur-sm">
         <div class="mx-auto max-w-5xl px-6 pt-4">
@@ -169,19 +188,12 @@ export default function App() {
 
           {/* Search */}
           <div class="relative mt-4 pb-4">
-            <svg
-              class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width={2}
+            <span
+              class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 font-mono text-sm font-semibold text-live"
+              aria-hidden="true"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607z"
-              />
-            </svg>
+              {'>'}
+            </span>
             <input
               type="search"
               ref={(el) => (searchInput.current = el)}
@@ -192,9 +204,9 @@ export default function App() {
               }}
               placeholder="Search apps…"
               aria-label="Search apps"
-              class="w-full rounded-full border border-border bg-surface py-2.5 pl-10 pr-12 text-sm text-foreground placeholder:text-muted focus:border-accent/60 focus:outline-none"
+              class="w-full rounded-full border border-border bg-surface py-2.5 pl-8 pr-12 font-mono text-sm text-foreground placeholder:text-muted focus:border-accent/60 focus:outline-none"
             />
-            <kbd class="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 rounded border border-border bg-background px-1.5 py-0.5 text-[10px] font-medium text-muted">
+            <kbd class="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] font-medium text-muted">
               /
             </kbd>
           </div>
@@ -202,7 +214,7 @@ export default function App() {
       </header>
 
       {/* ── Main Content ───────────────────────────────── */}
-      <main class="mx-auto max-w-5xl px-6">
+      <main class="relative mx-auto max-w-5xl px-6">
         {/* Error state */}
         {error() && (
           <div
@@ -233,13 +245,25 @@ export default function App() {
         {content() && !error() && (
           <>
             <For each={shelves()}>
-              {(shelf) => (
+              {(shelf, shelfIndex) => (
                 <section class="py-6" aria-label={shelf.category}>
                   <div class="mb-4 flex items-baseline justify-between">
-                    <h2 class="text-sm font-semibold uppercase tracking-widest text-muted">
-                      {shelf.category}
+                    <h2 class="font-mono text-sm font-semibold tracking-widest text-muted">
+                      <span class="text-live">~</span>/
+                      <ScrambleText
+                        text={shelf.category}
+                        play={getTier() === "high"}
+                        delay={shelfIndex() * 180}
+                      />
+                      <span class="text-accent">{" $"}</span>
+                      <span
+                        class="caret-blink ml-1 text-accent"
+                        aria-hidden="true"
+                      >
+                        █
+                      </span>
                     </h2>
-                    <span class="text-xs tabular-nums text-muted">
+                    <span class="font-mono text-xs tabular-nums text-muted">
                       {shelf.apps.length}
                     </span>
                   </div>
@@ -282,7 +306,7 @@ export default function App() {
       </main>
 
       {/* ── Footer ─────────────────────────────────────── */}
-      <footer class="mt-16 border-t border-border py-8">
+      <footer class="relative mt-16 border-t border-border py-8">
         <div class="mx-auto flex max-w-5xl items-center justify-between px-6">
           <p class="text-sm text-muted">I love making.</p>
           <a

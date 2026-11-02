@@ -1,4 +1,9 @@
-import { type Component, createSignal, onMount } from "solid-js";
+import {
+  createSignal,
+  onMount,
+  type Component,
+  type JSX,
+} from "solid-js";
 import type { App, AppStatus } from "@/types/content";
 import type { PerformanceTier } from "@/hooks/usePerformanceTier";
 
@@ -52,9 +57,11 @@ const TileContent: Component<{ app: App }> = (props) => {
           />
         </span>
         <span
-          class={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${STATUS_STYLES[props.app.status]}`}
+          class={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider ${STATUS_STYLES[props.app.status]}`}
         >
-          <span class="h-1.5 w-1.5 rounded-full bg-current" />
+          <span
+            class={`h-1.5 w-1.5 rounded-full bg-current ${props.app.status === "live" ? "dot-pulse" : ""}`}
+          />
           {props.app.status}
         </span>
       </div>
@@ -77,7 +84,7 @@ const TileContent: Component<{ app: App }> = (props) => {
       {size() === "featured" && props.app.tags && (
         <div class="mt-3 flex flex-wrap gap-2">
           {props.app.tags.map((tag) => (
-            <span class="rounded-full bg-accent/10 px-2.5 py-0.5 text-xs font-medium text-accent">
+            <span class="rounded-full bg-accent/10 px-2.5 py-0.5 font-mono text-xs font-medium text-accent">
               {tag}
             </span>
           ))}
@@ -86,7 +93,7 @@ const TileContent: Component<{ app: App }> = (props) => {
 
       {/* Footer: category + action hint + source link */}
       <div class="mt-auto flex items-center justify-between pt-4">
-        <span class="text-xs font-medium uppercase tracking-wide text-muted">
+        <span class="font-mono text-xs font-medium uppercase tracking-wide text-muted">
           {props.app.category}
         </span>
         <div class="flex items-center gap-3">
@@ -146,18 +153,21 @@ export const AppTile: Component<Props> = (props) => {
 
   const classes = () =>
     [
-      "group relative flex min-h-[13.5rem] shrink-0 snap-start flex-col rounded-xl border bg-surface p-5 text-left",
+      "app-tile group relative flex min-h-[13.5rem] shrink-0 snap-start flex-col rounded-xl border bg-surface p-5 text-left",
       SIZE_STYLES[props.app.size ?? "standard"],
+      props.app.size === "featured" ? "tile-featured" : "",
       target()
-        ? "cursor-pointer border-border transition-all duration-300 ease-out hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg"
+        ? "is-launchable cursor-pointer border-border transition-all duration-300 ease-out hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg"
         : "border-border",
     ].join(" ");
 
-  const style = () => ({
-    opacity: visible() ? (props.app.status === "retired" ? 0.55 : 1) : 0,
-    transform:
-      props.tier === "high" && !visible() ? "translateY(16px)" : undefined,
-  });
+  const style = () =>
+    ({
+      opacity: visible() ? (props.app.status === "retired" ? 0.55 : 1) : 0,
+      transform:
+        props.tier === "high" && !visible() ? "translateY(16px)" : undefined,
+      "--tile-accent": props.app.accent,
+    }) as JSX.CSSProperties;
 
   return (
     <article class={classes()} style={style()}>
