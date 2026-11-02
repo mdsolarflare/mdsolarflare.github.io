@@ -33,6 +33,7 @@
       "tagline": "Offline bio-data analytics. Your private weight/period/poop dashboard.",
       "category": "tools",
       "status": "live",
+      "size": "featured",
       "icon": "/icons/lymph.svg",
       "accent": "#f472b6",
       "tags": ["React", "pnpm", "TypeScript", "Rust", "WebAssembly"],

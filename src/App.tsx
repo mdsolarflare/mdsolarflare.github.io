@@ -247,7 +247,7 @@ export default function App() {
             <For each={shelves()}>
               {(shelf, shelfIndex) => (
                 <section class="py-6" aria-label={shelf.category}>
-                  <div class="mb-4 flex items-baseline justify-between">
+                  <div class="mb-2 flex items-baseline justify-between">
                     <h2 class="font-mono text-sm font-semibold tracking-widest text-muted">
                       <span class="text-live">~</span>/
                       <ScrambleText
@@ -267,7 +267,7 @@ export default function App() {
                       {shelf.apps.length}
                     </span>
                   </div>
-                  <div class="-mx-6 flex snap-x gap-4 overflow-x-auto px-6 pb-2">
+                  <div class="-mx-6 flex snap-x gap-4 overflow-x-auto px-6 pt-2 pb-2">
                     <For each={shelf.apps}>
                       {(app, index) => (
                         <AppTile app={app} tier={getTier()} index={index()} />
