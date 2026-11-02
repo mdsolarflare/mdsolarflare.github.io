@@ -1,6 +1,6 @@
-# Portfolio — Cyril
+# heyy.x.carnietech — App Launcher
 
-Pure client-side portfolio built with **SolidJS**, **Vite**, and **Tailwind CSS v4**. Zero SSR, zero hydration, zero islands. Designed for static CDN hosting (Cloudflare Pages / GitHub Pages / S3+CloudFront).
+Pure client-side app launcher built with **SolidJS**, **Vite**, and **Tailwind CSS v4**. Zero SSR, zero hydration, zero islands. Designed for static CDN hosting (Cloudflare Pages / GitHub Pages / S3+CloudFront).
 
 Live at [mdsolarflare.github.io](https://mdsolarflare.github.io) — deployed automatically by GitHub Actions on every push to `main`.
 
@@ -32,26 +32,31 @@ Site content lives in a single hand-edited JSON file, `public/content.json`, com
 
 The client fetches it on mount with a version-stamped URL (`/content.json?v=...`). The stamp is generated at build time in `vite.config.ts`, so every deploy busts CDN/browser caches while staying stable within one deployment. **Zero markdown parsing in the browser.**
 
+Each app entry has: `id`, `name`, `tagline`, `category`, `status` (`live` / `wip` / `retired`), `size` (`featured` / `standard` / `small`), `icon`, `accent` (hex, tints the icon plate), optional `tags`, and URLs. Live apps link their `launchUrl`; WIP apps link their `repoUrl`; retired tiles render inert and dimmed. Shelf order follows first-seen `category` order in the JSON.
+
 ### Hardware-Aware Rendering
 `src/hooks/usePerformanceTier.ts` detects device capability using only standard APIs:
 
 | Tier | Detection | Behavior |
 |---|---|---|
-| `high` | Default (good GPU, fast network) | Web Animations API, staggered transitions |
-| `medium` | 3G network or frame-budget miss | CSS-only transforms, shorter duration |
+| `high` | Default (good GPU, fast network) | Staggered fade + slide-up entrance (80 ms/card) + header decode animation |
+| `medium` | 3G network or frame-budget miss | Quick fade entrance (40 ms stagger) |
 | `low` | `prefers-reduced-motion`, software renderer, save-data | Static layout, zero JS animation loops |
 
 ### Design System
-- **Font**: Inter (single variable font via Google Fonts)
-- **Spacing**: 8px scale (`--space-*` tokens)
-- **Theming**: CSS custom properties, manual light/dark toggle (`useTheme`) persisted to `localStorage` with `prefers-color-scheme` fallback; inline script in `index.html` prevents flash of wrong theme
+- **Fonts**: Inter for body (Google Fonts, weights 400–700); JetBrains Mono for terminal-flavored UI (shelf headers, status chips, tags, search)
+- **Palette**: green-forward dark theme (phosphor-on-forest) and warm off-white light theme, orange accent — all CSS custom properties in `src/index.css`
+- **Neon Noir layer (dark theme only)**: blueprint grid + phosphor glow backdrop, per-app accent tile glow on hover, scanline sweep, HUD corner brackets on featured tiles, ghost wordmark in the empty canvas. The light theme intentionally stays clean.
+- **Motion**: shelf headers decode (scramble) into view — tier-gated to `high`, IntersectionObserver-triggered with a fail-safe settle; LIVE dots pulse and prompt carets blink; all decorative animation is killed for `prefers-reduced-motion` and performance tier `low` (`data-tier` on `<html>`)
+- **Theming**: `[data-theme]` attribute + manual light/dark toggle (`useTheme`) persisted to `localStorage` with `prefers-color-scheme` fallback; inline script in `index.html` prevents flash of wrong theme
+- **Search**: `/` focuses the filter from anywhere; `Esc` clears
 - **Accessibility**: Visible `:focus-visible` states, semantic HTML, ARIA labels
 
 ### Bundle Targets
 | Metric | Actual (gzipped) | Target |
 |---|---|---|
-| Initial JS | ~8 KB | < 30 KB ✅ |
-| CSS | ~4 KB | < 15 KB ✅ |
+| Initial JS | ~10.3 KB | < 30 KB ✅ |
+| CSS | ~5.7 KB | < 15 KB ✅ |
 
 ## Project Structure
 
@@ -61,18 +66,19 @@ The client fetches it on mount with a version-stamped URL (`/content.json?v=...`
 │       └── static.yml        # GitHub Pages deploy on push to main
 ├── public/
 │   ├── content.json          # Site content (hand-edited, committed)
-│   ├── favicon.svg
-│   └── images/               # Project screenshots
+│   ├── icons/                # Favicon + per-app SVG icons
+│   └── images/               # Screenshots / art
 ├── src/
-│   ├── components/       # UI components
-│   │   └── ProjectCard.tsx
-│   │   └── RotatingText.tsx
+│   ├── components/
+│   │   └── AppTile.tsx       # Launcher tile (bento width, status chip, entrance tier)
+│   │   └── ScrambleText.tsx  # Decode-in-view shelf headers (tier-gated)
 │   ├── hooks/
 │   │   └── usePerformanceTier.ts
 │   │   └── useTheme.ts
 │   ├── types/
 │   │   └── content.ts
-│   ├── App.tsx           # Main layout + content fetching
+│   ├── globals.d.ts          # __CONTENT_VERSION define
+│   ├── App.tsx               # Main layout + content fetching + search
 │   ├── index.css         # Tailwind v4 + design tokens
 │   └── index.tsx         # Entry point (render → #app)
 ├── index.html            # Shell (no hydration, pure CSR) + theme bootstrap script
