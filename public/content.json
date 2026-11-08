@@ -23,7 +23,7 @@
       "size": "featured",
       "icon": "/icons/vector-chess.svg",
       "accent": "#a78bfa",
-      "tags": ["Godot", "WebGL"],
+      "tags": ["Godot", "WebGL", "WASM"],
       "launchUrl": "https://heyy.foo/vector-chess",
       "repoUrl": "https://github.com/mdsolarflare/vector-chess",
       "date": "2026-07-01"
