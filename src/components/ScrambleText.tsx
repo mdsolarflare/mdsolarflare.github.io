@@ -4,8 +4,8 @@ const GLYPHS = "!<>-_\\/[]{}=+*^?#01";
 
 interface Props {
   text: string;
-  /** Decode animation runs only when true — caller gates on performance tier. */
-  play: boolean;
+  /** Decode animation runs when true (unless prefers-reduced-motion is active). */
+  play?: boolean;
   /** Extra delay (ms) before the decode starts, for stagger. */
   delay?: number;
 }
@@ -13,11 +13,16 @@ interface Props {
 /**
  * ScrambleText — decode-style reveal: characters resolve left → right while
  * unresolved slots flicker through glyphs. Plays once when scrolled into view.
- * When `play` is false it renders static text with zero JS loops.
+ * When `play` is false or `prefers-reduced-motion` is enabled, renders static text.
  */
 export function ScrambleText(props: Props) {
+  const shouldPlay = () =>
+    (props.play ?? true) &&
+    (typeof window === "undefined" ||
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
   const [display, setDisplay] = createSignal(
-    props.play ? "" : props.text,
+    shouldPlay() ? "" : props.text,
   );
   let el!: HTMLSpanElement;
   let raf = 0;
@@ -49,7 +54,10 @@ export function ScrambleText(props: Props) {
   };
 
   onMount(() => {
-    if (!props.play) return;
+    if (!shouldPlay()) {
+      setDisplay(props.text);
+      return;
+    }
     if (!("IntersectionObserver" in window)) {
       setDisplay(props.text);
       return;

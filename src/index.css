@@ -265,12 +265,3 @@ body {
         scroll-behavior: auto;
     }
 }
-
-/* Performance tier "low" (detected by usePerformanceTier) mirrors the
-   reduced-motion kill for devices that are slow without the OS setting */
-:root[data-tier="low"] *,
-:root[data-tier="low"] *::before,
-:root[data-tier="low"] *::after {
-    animation: none !important;
-    transition-duration: 0.01ms !important;
-}
