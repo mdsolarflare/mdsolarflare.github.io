@@ -34,20 +34,20 @@ The client fetches it on mount with a version-stamped URL (`/content.json?v=...`
 
 Each app entry has: `id`, `name`, `tagline`, `category`, `status` (`live` / `wip` / `retired`), `size` (`featured` / `standard` / `small`), `icon`, `accent` (hex, tints the icon plate), optional `tags`, and URLs. Live apps link their `launchUrl`; WIP apps link their `repoUrl`; retired tiles render inert and dimmed. Shelf order follows first-seen `category` order in the JSON.
 
-### Hardware-Aware Rendering
-`src/hooks/usePerformanceTier.ts` detects device capability using only standard APIs:
+### WebGPU Debugger & Hardware Telemetry
+`src/hooks/usePerformanceTier.ts` and `src/components/WebGpuDebugger.tsx` probe client GPU capabilities using standard browser APIs (`navigator.gpu`, `WebGL2RenderingContext` + `WEBGL_debug_renderer_info`, `requestAnimationFrame` pacing, and `crossOriginIsolated`) to inform users which apps or games may struggle when hardware acceleration is unavailable:
 
-| Tier | Detection | Behavior |
+| Tier | Detection | Diagnostic Impact |
 |---|---|---|
-| `high` | Default (good GPU, fast network) | Staggered fade + slide-up entrance (80 ms/card) + header decode animation |
-| `medium` | 3G network or frame-budget miss | Quick fade entrance (40 ms stagger) |
-| `low` | `prefers-reduced-motion`, software renderer, save-data | Static layout, zero JS animation loops |
+| `high` | Hardware GPU verified across WebGL 2.0 & WebGPU + 60 FPS frame budget | All apps report nominal hardware acceleration |
+| `medium` | Hardware WebGL 2.0 active, but WebGPU unavailable, 3G network, or >30% frame-budget misses | Flags WebGPU-only experiments or frame pacing warnings |
+| `low` | Software rasterizer (`SwiftShader` / `LLVMpipe` / `Basic Render Driver`), no GPU contexts, or save-data | Displays warning chips on GPU-dependent app tiles linking to `#webgpu-debugger` remediation steps |
 
 ### Design System
-- **Fonts**: Inter for body (Google Fonts, weights 400–700); JetBrains Mono for terminal-flavored UI (shelf headers, status chips, tags, search)
+- **Fonts**: Inter for body (Google Fonts, weights 400–700); JetBrains Mono for terminal-flavored UI (shelf headers, status chips, tags, search, WebGPU Debugger)
 - **Palette**: green-forward dark theme (phosphor-on-forest) and warm off-white light theme, orange accent — all CSS custom properties in `src/index.css`
-- **Neon Noir layer (dark theme only)**: blueprint grid + phosphor glow backdrop, per-app accent tile glow on hover, scanline sweep, HUD corner brackets on featured tiles, ghost wordmark in the empty canvas. The light theme intentionally stays clean.
-- **Motion**: shelf headers decode (scramble) into view — tier-gated to `high`, IntersectionObserver-triggered with a fail-safe settle; LIVE dots pulse and prompt carets blink; all decorative animation is killed for `prefers-reduced-motion` and performance tier `low` (`data-tier` on `<html>`)
+- **Neon Noir layer (dark theme only)**: blueprint grid + phosphor glow backdrop, per-app accent tile glow on hover, scanline sweep, HUD corner brackets on featured tiles and the WebGPU Debugger panel, ghost wordmark in the empty canvas. The light theme intentionally stays clean.
+- **Motion**: shelf headers decode (scramble) into view — IntersectionObserver-triggered with a fail-safe settle; LIVE dots pulse and prompt carets blink; all decorative animation is killed for `prefers-reduced-motion`
 - **Theming**: `[data-theme]` attribute + manual light/dark toggle (`useTheme`) persisted to `localStorage` with `prefers-color-scheme` fallback; inline script in `index.html` prevents flash of wrong theme
 - **Search**: `/` focuses the filter from anywhere; `Esc` clears
 - **Accessibility**: Visible `:focus-visible` states, semantic HTML, ARIA labels
@@ -55,35 +55,36 @@ Each app entry has: `id`, `name`, `tagline`, `category`, `status` (`live` / `wip
 ### Bundle Targets
 | Metric | Actual (gzipped) | Target |
 |---|---|---|
-| Initial JS | ~10.3 KB | < 30 KB ✅ |
-| CSS | ~5.7 KB | < 15 KB ✅ |
+| Initial JS | ~12 KB | < 30 KB ✅ |
+| CSS | ~6 KB | < 15 KB ✅ |
 
 ## Project Structure
 
 ```
 ├── .github/
 │   └── workflows/
-│       └── static.yml        # GitHub Pages deploy on push to main
+│       └── static.yml            # GitHub Pages deploy on push to main
 ├── public/
-│   ├── content.json          # Site content (hand-edited, committed)
-│   ├── icons/                # Favicon + per-app SVG icons
-│   └── images/               # Screenshots / art
+│   ├── content.json              # Site content (hand-edited, committed)
+│   ├── icons/                    # Favicon + per-app SVG icons
+│   └── images/                   # Screenshots / art
 ├── src/
 │   ├── components/
-│   │   └── AppTile.tsx       # Launcher tile (bento width, status chip, entrance tier)
-│   │   └── ScrambleText.tsx  # Decode-in-view shelf headers (tier-gated)
+│   │   ├── AppTile.tsx           # Launcher tile (bento width, status + GPU warning chips)
+│   │   ├── ScrambleText.tsx      # Decode-in-view shelf headers
+│   │   └── WebGpuDebugger.tsx    # Bottom cyberpunk GPU & compatibility telemetry panel
 │   ├── hooks/
-│   │   └── usePerformanceTier.ts
+│   │   ├── usePerformanceTier.ts # WebGL2, WebGPU, frame budget & per-app compatibility probe
 │   │   └── useTheme.ts
 │   ├── types/
 │   │   └── content.ts
-│   ├── globals.d.ts          # __CONTENT_VERSION define
-│   ├── App.tsx               # Main layout + content fetching + search
-│   ├── index.css         # Tailwind v4 + design tokens
-│   └── index.tsx         # Entry point (render → #app)
-├── index.html            # Shell (no hydration, pure CSR) + theme bootstrap script
-├── vite.config.ts        # Vite + Solid + Tailwind + content version stamp
-└── tsconfig.json         # Strict TS + @/ alias
+│   ├── globals.d.ts              # __CONTENT_VERSION define
+│   ├── App.tsx                   # Main layout + content fetching + search + WebGPU Debugger
+│   ├── index.css                 # Tailwind v4 + design tokens
+│   └── index.tsx                 # Entry point (render → #app)
+├── index.html                    # Shell (no hydration, pure CSR) + theme bootstrap script
+├── vite.config.ts                # Vite + Solid + Tailwind + content version stamp
+└── tsconfig.json                 # Strict TS + @/ alias
 ```
 
 ## Deployment

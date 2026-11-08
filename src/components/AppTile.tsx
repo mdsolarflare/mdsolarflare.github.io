@@ -1,16 +1,13 @@
-import {
-  createSignal,
-  onMount,
-  type Component,
-  type JSX,
-} from "solid-js";
+import { type Component, type JSX } from "solid-js";
 import type { App, AppStatus } from "@/types/content";
-import type { PerformanceTier } from "@/hooks/usePerformanceTier";
+import {
+  evaluateAppCompatibility,
+  type GpuTelemetry,
+} from "@/hooks/usePerformanceTier";
 
 interface Props {
   app: App;
-  tier: PerformanceTier;
-  index: number;
+  telemetry: GpuTelemetry;
 }
 
 const STATUS_STYLES: Record<AppStatus, string> = {
@@ -27,7 +24,9 @@ const SIZE_STYLES: Record<NonNullable<App["size"]>, string> = {
 };
 
 /** Shared tile body, rendered inside either the launchable <a> or inert <article>. */
-const TileContent: Component<{ app: App }> = (props) => {
+const TileContent: Component<{ app: App; telemetry: GpuTelemetry }> = (
+  props,
+) => {
   const size = () => props.app.size ?? "standard";
   const isLaunchable = () =>
     props.app.status === "live"
@@ -36,10 +35,14 @@ const TileContent: Component<{ app: App }> = (props) => {
         ? !!props.app.repoUrl
         : false;
 
+  const compat = () => evaluateAppCompatibility(props.app, props.telemetry);
+  const showGpuWarning = () =>
+    !props.telemetry.probing && compat().status !== "optimal";
+
   return (
     <>
-      {/* Icon plate + status chip */}
-      <div class="flex items-start justify-between">
+      {/* Icon plate + status / GPU warning chips */}
+      <div class="flex items-start justify-between gap-2">
         <span
           class={
             size() === "featured"
@@ -56,14 +59,27 @@ const TileContent: Component<{ app: App }> = (props) => {
             decoding="async"
           />
         </span>
-        <span
-          class={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider ${STATUS_STYLES[props.app.status]}`}
-        >
+
+        <div class="flex flex-wrap items-center justify-end gap-1.5">
+          {showGpuWarning() && (
+            <a
+              href="#webgpu-debugger"
+              title={compat().detail}
+              class="relative z-10 inline-flex items-center gap-1 rounded-full border border-wip/40 bg-wip/10 px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-wip transition-colors hover:border-wip hover:bg-wip/20"
+            >
+              <span aria-hidden="true">⚠</span>
+              <span>{compat().badgeText}</span>
+            </a>
+          )}
           <span
-            class={`h-1.5 w-1.5 rounded-full bg-current ${props.app.status === "live" ? "dot-pulse" : ""}`}
-          />
-          {props.app.status}
-        </span>
+            class={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider ${STATUS_STYLES[props.app.status]}`}
+          >
+            <span
+              class={`h-1.5 w-1.5 rounded-full bg-current ${props.app.status === "live" ? "dot-pulse" : ""}`}
+            />
+            {props.app.status}
+          </span>
+        </div>
       </div>
 
       {/* Name + tagline */}
@@ -126,25 +142,14 @@ const TileContent: Component<{ app: App }> = (props) => {
 /**
  * AppTile — one app in the launcher grid.
  *
- - Live apps open their launch URL; WIP apps open their repo (if any);
-   retired tiles are inert and dimmed.
- - Live tiles with a repoUrl also render a "Source ↗" footer link.
- - `size` drives bento width: featured / standard / small.
- - Entrance animation is tier-aware: high → staggered fade + slide-up,
-   medium → quick fade, low → static.
+ * - Live apps open their launch URL; WIP apps open their repo (if any);
+ *   retired tiles are inert and dimmed.
+ * - Live tiles with a repoUrl also render a "Source ↗" footer link.
+ * - `size` drives bento width: featured / standard / small.
+ * - GPU-dependent apps show a subtle warning chip linking to #webgpu-debugger
+ *   when browser GPU acceleration or WebGPU/WebGL2 is unavailable.
  */
 export const AppTile: Component<Props> = (props) => {
-  const [visible, setVisible] = createSignal(false);
-
-  onMount(() => {
-    if (props.tier === "low") {
-      setVisible(true);
-      return;
-    }
-    const delay = props.tier === "high" ? props.index * 80 : props.index * 40;
-    setTimeout(() => setVisible(true), delay);
-  });
-
   const target = (): string | undefined => {
     if (props.app.status === "live") return props.app.launchUrl;
     if (props.app.status === "wip") return props.app.repoUrl;
@@ -163,9 +168,7 @@ export const AppTile: Component<Props> = (props) => {
 
   const style = () =>
     ({
-      opacity: visible() ? (props.app.status === "retired" ? 0.55 : 1) : 0,
-      transform:
-        props.tier === "high" && !visible() ? "translateY(16px)" : undefined,
+      opacity: props.app.status === "retired" ? 0.55 : 1,
       "--tile-accent": props.app.accent,
     }) as JSX.CSSProperties;
 
@@ -185,7 +188,7 @@ export const AppTile: Component<Props> = (props) => {
           }
         />
       )}
-      <TileContent app={props.app} />
+      <TileContent app={props.app} telemetry={props.telemetry} />
     </article>
   );
 };

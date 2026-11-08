@@ -1,5 +1,4 @@
 import {
-  createEffect,
   createMemo,
   createSignal,
   For,
@@ -8,19 +7,15 @@ import {
 import "./index.css";
 import { AppTile } from "@/components/AppTile";
 import { ScrambleText } from "@/components/ScrambleText";
+import { WebGpuDebugger } from "@/components/WebGpuDebugger";
 import type { App, ContentData } from "@/types/content";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
 import { useTheme } from "@/hooks/useTheme";
 
 export default function App() {
-  const [getTier] = usePerformanceTier();
+  const [telemetry] = usePerformanceTier();
   const [theme, toggleTheme] = useTheme();
 
-  // Expose the tier so CSS can gate decorative animations (mirrors
-  // prefers-reduced-motion for devices that are slow without the OS setting)
-  createEffect(() => {
-    document.documentElement.dataset.tier = getTier();
-  });
   const [content, setContent] = createSignal<ContentData | null>(null);
   const [error, setError] = createSignal<string | null>(null);
   const [query, setQuery] = createSignal("");
@@ -192,7 +187,7 @@ export default function App() {
               class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 font-mono text-sm font-semibold text-live"
               aria-hidden="true"
             >
-              {'>'}
+              {">"}
             </span>
             <input
               type="search"
@@ -252,7 +247,7 @@ export default function App() {
                       <span class="text-live">~</span>/
                       <ScrambleText
                         text={shelf.category}
-                        play={getTier() === "high"}
+                        play={true}
                         delay={shelfIndex() * 180}
                       />
                       <span class="text-accent">{" $"}</span>
@@ -269,8 +264,8 @@ export default function App() {
                   </div>
                   <div class="-mx-6 flex snap-x gap-4 overflow-x-auto px-6 pt-2 pb-2">
                     <For each={shelf.apps}>
-                      {(app, index) => (
-                        <AppTile app={app} tier={getTier()} index={index()} />
+                      {(app) => (
+                        <AppTile app={app} telemetry={telemetry()} />
                       )}
                     </For>
                   </div>
@@ -301,6 +296,9 @@ export default function App() {
                 {visibleCount()} {visibleCount() === 1 ? "app" : "apps"} found
               </p>
             )}
+
+            {/* WebGPU Debugger & Hardware Telemetry */}
+            <WebGpuDebugger telemetry={telemetry()} apps={apps()} />
           </>
         )}
       </main>
