@@ -78,13 +78,13 @@ export const WebGpuDebugger: Component<Props> = (props) => {
     <section
       id="webgpu-debugger"
       class="py-8 scroll-mt-24"
-      aria-label="WebGPU Debugger"
+      aria-label="webgpu debugger"
     >
       {/* Terminal Shelf Header */}
       <div class="mb-3 flex flex-wrap items-baseline justify-between gap-2">
         <h2 class="font-mono text-sm font-semibold tracking-widest text-muted">
           <span class="text-live">~</span>/
-          <ScrambleText text="WebGPU Debugger" play={true} delay={120} />
+          <ScrambleText text="webgpu debugger" play={true} delay={120} />
           <span class="text-accent">{" $"}</span>
           <span class="caret-blink ml-1 text-accent" aria-hidden="true">
             █
